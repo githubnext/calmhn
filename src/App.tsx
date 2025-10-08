@@ -1,6 +1,16 @@
 import { useEffect, useState } from 'react'
 import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
 
+interface AlgoliaStory {
+  objectID: string
+  title: string
+  url?: string
+  points: number
+  author: string
+  created_at_i: number
+  num_comments?: number
+}
+
 interface HNStory {
   id: number
   title: string
@@ -22,22 +32,33 @@ function App() {
         setLoading(true)
         setError(null)
 
-        // Fetch top story IDs
-        const idsResponse = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json')
-        if (!idsResponse.ok) throw new Error('Failed to fetch story IDs')
+        // Calculate timestamp for three months ago
+        const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
 
-        const allIds: number[] = await idsResponse.json()
-        const topIds = allIds.slice(0, 30) // Get first 30 stories
+        // Fetch top stories from last three months using Algolia
+        const response = await fetch(
+          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+        )
+        if (!response.ok) throw new Error('Failed to fetch stories')
 
-        // Fetch individual stories in parallel
-        const storyPromises = topIds.map(async (id) => {
-          const response = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-          if (!response.ok) throw new Error(`Failed to fetch story ${id}`)
-          return response.json()
-        })
+        const data = await response.json()
+        const algoliaStories: AlgoliaStory[] = data.hits
 
-        const fetchedStories = await Promise.all(storyPromises)
-        setStories(fetchedStories)
+        // Convert Algolia format to our HNStory format
+        const convertedStories: HNStory[] = algoliaStories
+          .filter(story => story.title && story.points) // Filter out stories without title or points
+          .map(story => ({
+            id: parseInt(story.objectID),
+            title: story.title,
+            url: story.url,
+            score: story.points,
+            by: story.author,
+            time: story.created_at_i,
+            descendants: story.num_comments
+          }))
+          .sort((a, b) => b.score - a.score) // Sort by score descending
+
+        setStories(convertedStories)
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Something went wrong')
       } finally {
@@ -96,7 +117,7 @@ function App() {
             Calm HN
           </h1>
           <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
-            Top stories
+            Top stories from the last three months
           </p>
         </header>
 
