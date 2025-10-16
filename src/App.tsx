@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
+import Balancer from 'react-wrap-balancer'
 
 interface AlgoliaStory {
   objectID: string
@@ -95,7 +96,7 @@ function App() {
   if (loading) {
     return (
       <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <p className="text-neutral-400 text-sm">Loading...</p>
+        <p className="text-neutral-400" style={{ fontSize: 'var(--fs-sm)' }}>Loading...</p>
       </div>
     )
   }
@@ -103,7 +104,7 @@ function App() {
   if (error) {
     return (
       <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
-        <p className="text-neutral-500 text-sm">{error}</p>
+        <p className="text-neutral-500" style={{ fontSize: 'var(--fs-sm)' }}>{error}</p>
       </div>
     )
   }
@@ -113,10 +114,10 @@ function App() {
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-200 to-transparent pointer-events-none"></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
         <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+          <h1 className="font-extrabold text-slate-900 tracking-tight" style={{ fontSize: 'var(--fs-xl)', lineHeight: 'var(--lh-tight)' }}>
             Calm HN
           </h1>
-          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
+          <p className="text-slate-500 mt-2 uppercase tracking-wider" style={{ fontSize: 'var(--fs-xs)' }}>
             Top stories from the last three months
           </p>
         </header>
@@ -132,19 +133,21 @@ function App() {
                 aria-label={story.title}
               />
               <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 relative z-10 pointer-events-none">
-                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-orange-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
+                <span className="bg-slate-200 text-slate-500 leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-orange-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300" style={{ fontSize: 'var(--fs-xs)' }}>
                   {index + 1}
                 </span>
-                <h2 className="text-slate-900 text-lg leading-relaxed">
-                  <span className="inline-flex items-baseline gap-1.5">
-                    {story.title}
-                    {story.url && (
-                      <ArrowSquareOut size={14} weight="regular" className="opacity-40 flex-shrink-0 mt-1" />
-                    )}
-                  </span>
+                <h2 className="text-slate-900" style={{ fontSize: 'var(--fs-lg)', lineHeight: 'var(--lh-relaxed)' }}>
+                  <Balancer>
+                    <span className="inline-flex items-baseline gap-1.5">
+                      {story.title}
+                      {story.url && (
+                        <ArrowSquareOut size={14} weight="regular" className="opacity-40 flex-shrink-0 mt-1" />
+                      )}
+                    </span>
+                  </Balancer>
                 </h2>
                 <div></div>
-                <div className="flex items-center gap-3 text-xs text-slate-400 group-hover:text-slate-500 transition-colors duration-300">
+                <div className="flex items-center gap-3 text-slate-400 group-hover:text-slate-500 transition-colors duration-300" style={{ fontSize: 'var(--fs-sm)' }}>
                 <span className="flex items-center gap-1">
                   <ArrowUp size={12} weight="regular" className="opacity-60" />
                   {story.score}
