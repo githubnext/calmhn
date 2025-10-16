@@ -8,6 +8,31 @@
 	src: url("./InterVariable.woff2") format("woff2");
 }
 
+:root {
+	/* Fluid typography scale using clamp() */
+	/* Base: 16px-18px between 320px-1440px viewports */
+	--fs-base: clamp(1rem, 0.9286rem + 0.2381vw, 1.125rem);
+
+	/* Small: 10px-11px */
+	--fs-xs: clamp(0.625rem, 0.5804rem + 0.1488vw, 0.6875rem);
+
+	/* Medium: 14px-16px */
+	--fs-sm: clamp(0.875rem, 0.8125rem + 0.2083vw, 1rem);
+
+	/* Large: 18px-22px */
+	--fs-lg: clamp(1.125rem, 1.0089rem + 0.3869vw, 1.375rem);
+
+	/* Extra Large: 36px-48px (h1) */
+	--fs-xl: clamp(2.25rem, 1.9286rem + 1.0714vw, 3rem);
+
+	/* Line heights */
+	--lh-tight: 1.25;
+	--lh-normal: 1.5;
+	--lh-relaxed: 1.625;
+}
+
 body {
 	font-family: "InterVariable", sans-serif;
+	font-size: var(--fs-base);
+	line-height: var(--lh-normal);
 }
