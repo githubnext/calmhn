@@ -74,6 +74,87 @@
 	}
 }
 
+/* Protanopia & Deuteranopia light theme (red-green color blindness) */
+/* Uses blue-yellow contrasts instead of red-green */
+@media (prefers-color-scheme: light) {
+	@supports (color: color(display-p3 1 1 1)) {
+		:root:has(body[data-cvd="protanopia"]),
+		:root:has(body[data-cvd="deuteranopia"]) {
+			--bg-primary: 250 250 250; /* neutral-50 */
+			--bg-secondary: 241 245 249; /* slate-100 */
+			--bg-badge: 219 234 254; /* blue-100 */
+			--bg-badge-hover: 147 197 253; /* blue-300 */
+			--gradient-from: 147 197 253; /* blue-300 */
+			--text-primary: 15 23 42; /* slate-900 */
+			--text-secondary: 71 85 105; /* slate-600 */
+			--text-tertiary: 100 116 139; /* slate-500 */
+			--text-badge: 30 64 175; /* blue-800 */
+			--text-badge-hover: 30 58 138; /* blue-900 */
+			--text-muted: 203 213 225; /* slate-300 */
+		}
+	}
+}
+
+/* Protanopia & Deuteranopia dark theme */
+@media (prefers-color-scheme: dark) {
+	@supports (color: color(display-p3 1 1 1)) {
+		:root:has(body[data-cvd="protanopia"]),
+		:root:has(body[data-cvd="deuteranopia"]) {
+			--bg-primary: 15 23 42; /* slate-900 */
+			--bg-secondary: 30 41 59; /* slate-800 */
+			--bg-badge: 30 58 138; /* blue-900 */
+			--bg-badge-hover: 59 130 246; /* blue-500 */
+			--gradient-from: 59 130 246; /* blue-500 */
+			--text-primary: 248 250 252; /* slate-50 */
+			--text-secondary: 203 213 225; /* slate-300 */
+			--text-tertiary: 148 163 184; /* slate-400 */
+			--text-badge: 147 197 253; /* blue-300 */
+			--text-badge-hover: 191 219 254; /* blue-200 */
+			--text-muted: 71 85 105; /* slate-600 */
+		}
+	}
+}
+
+/* Protanopia & Deuteranopia high contrast light */
+@media (prefers-contrast: more) and (prefers-color-scheme: light) {
+	@supports (color: color(display-p3 1 1 1)) {
+		:root:has(body[data-cvd="protanopia"]),
+		:root:has(body[data-cvd="deuteranopia"]) {
+			--bg-primary: 255 255 255; /* white */
+			--bg-secondary: 226 232 240; /* slate-200 */
+			--bg-badge: 191 219 254; /* blue-200 */
+			--bg-badge-hover: 96 165 250; /* blue-400 */
+			--gradient-from: 96 165 250; /* blue-400 */
+			--text-primary: 0 0 0; /* black */
+			--text-secondary: 30 41 59; /* slate-800 */
+			--text-tertiary: 51 65 85; /* slate-700 */
+			--text-badge: 29 78 216; /* blue-700 */
+			--text-badge-hover: 0 0 0; /* black */
+			--text-muted: 148 163 184; /* slate-400 */
+		}
+	}
+}
+
+/* Protanopia & Deuteranopia high contrast dark */
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+	@supports (color: color(display-p3 1 1 1)) {
+		:root:has(body[data-cvd="protanopia"]),
+		:root:has(body[data-cvd="deuteranopia"]) {
+			--bg-primary: 0 0 0; /* black */
+			--bg-secondary: 30 41 59; /* slate-800 */
+			--bg-badge: 29 78 216; /* blue-700 */
+			--bg-badge-hover: 96 165 250; /* blue-400 */
+			--gradient-from: 96 165 250; /* blue-400 */
+			--text-primary: 255 255 255; /* white */
+			--text-secondary: 226 232 240; /* slate-200 */
+			--text-tertiary: 203 213 225; /* slate-300 */
+			--text-badge: 219 234 254; /* blue-100 */
+			--text-badge-hover: 255 255 255; /* white */
+			--text-muted: 100 116 139; /* slate-500 */
+		}
+	}
+}
+
 body {
 	font-family: "InterVariable", sans-serif;
 }
