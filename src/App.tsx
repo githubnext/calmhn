@@ -25,6 +25,9 @@ function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [cvdMode, setCvdMode] = useState<string | null>(
+    localStorage.getItem('cvd-preference')
+  )
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -69,6 +72,17 @@ function App() {
     fetchTopStories()
   }, [])
 
+  const handleCvdChange = (mode: string | null) => {
+    setCvdMode(mode)
+    if (mode) {
+      document.body.setAttribute('data-cvd', mode)
+      localStorage.setItem('cvd-preference', mode)
+    } else {
+      document.body.removeAttribute('data-cvd')
+      localStorage.removeItem('cvd-preference')
+    }
+  }
+
   const formatTime = (timestamp: number) => {
     const now = Date.now() / 1000
     const diff = now - timestamp
@@ -112,13 +126,25 @@ function App() {
     <div className="min-h-screen bg-[rgb(var(--bg-primary))] relative">
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[rgb(var(--gradient-from))] to-transparent pointer-events-none"></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
-        <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-[rgb(var(--text-primary))] tracking-tight">
-            Calm HN
-          </h1>
-          <p className="text-[rgb(var(--text-secondary))] text-[10px] mt-2 uppercase tracking-wider">
-            Top stories from the last three months
-          </p>
+        <header className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-extrabold text-[rgb(var(--text-primary))] tracking-tight">
+              Calm HN
+            </h1>
+            <p className="text-[rgb(var(--text-secondary))] text-[10px] mt-2 uppercase tracking-wider">
+              Top stories from the last three months
+            </p>
+          </div>
+          <select
+            value={cvdMode || ''}
+            onChange={(e) => handleCvdChange(e.target.value || null)}
+            className="text-[10px] px-2 py-1 rounded bg-[rgb(var(--bg-secondary))] text-[rgb(var(--text-secondary))] border-0 outline-none cursor-pointer uppercase tracking-wider opacity-40 hover:opacity-100 transition-opacity"
+            aria-label="Color vision mode"
+          >
+            <option value="">Default</option>
+            <option value="protanopia">Protanopia</option>
+            <option value="deuteranopia">Deuteranopia</option>
+          </select>
         </header>
 
         <div className="space-y-6">
