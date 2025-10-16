@@ -114,7 +114,7 @@ function App() {
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
         <header className="mb-8">
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-            Calm HN
+            Calm HN says what!!!
           </h1>
           <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
             Top stories from the last three months
