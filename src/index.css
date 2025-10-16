@@ -10,20 +10,20 @@
 
 :root {
 	/* Fluid typography scale using clamp() */
-	/* Base: 16px-18px between 320px-1440px viewports */
-	--fs-base: clamp(1rem, 0.9286rem + 0.2381vw, 1.125rem);
+	/* Base: 14px-18px between 320px-1440px viewports */
+	--fs-base: clamp(0.875rem, 0.7857rem + 0.2976vw, 1.125rem);
 
-	/* Small: 10px-11px */
-	--fs-xs: clamp(0.625rem, 0.5804rem + 0.1488vw, 0.6875rem);
+	/* Small: 9px-11px */
+	--fs-xs: clamp(0.5625rem, 0.5089rem + 0.1786vw, 0.6875rem);
 
-	/* Medium: 14px-16px */
-	--fs-sm: clamp(0.875rem, 0.8125rem + 0.2083vw, 1rem);
+	/* Medium: 12px-16px */
+	--fs-sm: clamp(0.75rem, 0.6429rem + 0.3571vw, 1rem);
 
-	/* Large: 18px-22px */
-	--fs-lg: clamp(1.125rem, 1.0089rem + 0.3869vw, 1.375rem);
+	/* Large: 16px-22px */
+	--fs-lg: clamp(1rem, 0.8571rem + 0.4762vw, 1.375rem);
 
-	/* Extra Large: 36px-48px (h1) */
-	--fs-xl: clamp(2.25rem, 1.9286rem + 1.0714vw, 3rem);
+	/* Extra Large: 28px-48px (h1) */
+	--fs-xl: clamp(1.75rem, 1.3929rem + 1.1905vw, 3rem);
 
 	/* Line heights */
 	--lh-tight: 1.25;
