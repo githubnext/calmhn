@@ -32,12 +32,12 @@ function App() {
         setLoading(true)
         setError(null)
 
-        // Calculate timestamp for three months ago
-        const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
+        // Calculate timestamp for six months ago
+        const sixMonthsAgo = Math.floor(Date.now() / 1000) - (180 * 24 * 60 * 60)
 
-        // Fetch top stories from last three months using Algolia
+        // Fetch top stories from last six months using Algolia
         const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${sixMonthsAgo}&hitsPerPage=30`
         )
         if (!response.ok) throw new Error('Failed to fetch stories')
 
@@ -117,7 +117,7 @@ function App() {
             Calm HN
           </h1>
           <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
-            Top stories from the last three months
+            Top stories from the last six months
           </p>
         </header>
 
