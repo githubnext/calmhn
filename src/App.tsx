@@ -110,7 +110,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-neutral-50 relative">
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-200 to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-violet-200 to-transparent pointer-events-none"></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
         <header className="mb-8">
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
@@ -132,7 +132,7 @@ function App() {
                 aria-label={story.title}
               />
               <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 relative z-10 pointer-events-none">
-                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-orange-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
+                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-violet-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
                   {index + 1}
                 </span>
                 <h2 className="text-slate-900 text-lg leading-relaxed">
