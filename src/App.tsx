@@ -21,9 +21,10 @@ interface HNStory {
   descendants?: number
 }
 
-type Duration = '1' | '3' | '6'
+type Duration = '2w' | '1' | '3' | '6'
 
 const DURATION_OPTIONS: { value: Duration; label: string; days: number }[] = [
+  { value: '2w', label: '2 weeks', days: 14 },
   { value: '1', label: '1 month', days: 30 },
   { value: '3', label: '3 months', days: 90 },
   { value: '6', label: '6 months', days: 180 },
