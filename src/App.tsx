@@ -21,10 +21,19 @@ interface HNStory {
   descendants?: number
 }
 
+type Duration = '1' | '3' | '6'
+
+const DURATION_OPTIONS: { value: Duration; label: string; days: number }[] = [
+  { value: '1', label: '1 month', days: 30 },
+  { value: '3', label: '3 months', days: 90 },
+  { value: '6', label: '6 months', days: 180 },
+]
+
 function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [duration, setDuration] = useState<Duration>('3')
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -32,12 +41,11 @@ function App() {
         setLoading(true)
         setError(null)
 
-        // Calculate timestamp for three months ago
-        const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
+        const selectedOption = DURATION_OPTIONS.find(opt => opt.value === duration)!
+        const cutoffTime = Math.floor(Date.now() / 1000) - (selectedOption.days * 24 * 60 * 60)
 
-        // Fetch top stories from last three months using Algolia
         const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${cutoffTime}&hitsPerPage=30`
         )
         if (!response.ok) throw new Error('Failed to fetch stories')
 
@@ -67,7 +75,7 @@ function App() {
     }
 
     fetchTopStories()
-  }, [])
+  }, [duration])
 
   const formatTime = (timestamp: number) => {
     const now = Date.now() / 1000
@@ -116,9 +124,20 @@ function App() {
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
             Calm HN
           </h1>
-          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
-            Top stories from the last three months
-          </p>
+          <div className="flex items-center gap-2 mt-2">
+            <span className="text-slate-500 text-[10px] uppercase tracking-wider">
+              Top stories from the last
+            </span>
+            <select
+              value={duration}
+              onChange={(e) => setDuration(e.target.value as Duration)}
+              className="text-slate-500 text-[10px] uppercase tracking-wider bg-transparent border-b border-slate-300 focus:outline-none focus:border-orange-400 cursor-pointer"
+            >
+              {DURATION_OPTIONS.map(opt => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
+            </select>
+          </div>
         </header>
 
         <div className="space-y-6">
