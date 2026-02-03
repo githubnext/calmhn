@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
+import { ArrowSquareOut, ChatCircle, ArrowUp, Clock, MagnifyingGlass } from '@phosphor-icons/react'
 
 interface AlgoliaStory {
   objectID: string
@@ -25,9 +25,19 @@ function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
 
   useEffect(() => {
-    const fetchTopStories = async () => {
+    const fetchStories = async () => {
       try {
         setLoading(true)
         setError(null)
@@ -35,9 +45,10 @@ function App() {
         // Calculate timestamp for three months ago
         const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
 
-        // Fetch top stories from last three months using Algolia
+        // Build URL with optional search query
+        const queryParam = debouncedQuery ? `query=${encodeURIComponent(debouncedQuery)}&` : ''
         const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+          `https://hn.algolia.com/api/v1/search?${queryParam}tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
         )
         if (!response.ok) throw new Error('Failed to fetch stories')
 
@@ -66,8 +77,8 @@ function App() {
       }
     }
 
-    fetchTopStories()
-  }, [])
+    fetchStories()
+  }, [debouncedQuery])
 
   const formatTime = (timestamp: number) => {
     const now = Date.now() / 1000
@@ -120,6 +131,21 @@ function App() {
             Top stories from the last three months
           </p>
         </header>
+
+        <div className="mb-6 relative">
+          <MagnifyingGlass 
+            size={18} 
+            weight="regular" 
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" 
+          />
+          <input
+            type="text"
+            placeholder="Search stories..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-200 rounded-lg text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-orange-300 transition-all"
+          />
+        </div>
 
         <div className="space-y-6">
           {stories.map((story, index) => (
