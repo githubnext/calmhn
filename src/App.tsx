@@ -25,6 +25,16 @@ function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery)
+    }, 300)
+    return () => clearTimeout(timer)
+  }, [searchQuery])
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -35,9 +45,10 @@ function App() {
         // Calculate timestamp for three months ago
         const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
 
-        // Fetch top stories from last three months using Algolia
+        // Build URL with optional search query
+        const queryParam = debouncedQuery ? `&query=${encodeURIComponent(debouncedQuery)}` : ''
         const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30${queryParam}`
         )
         if (!response.ok) throw new Error('Failed to fetch stories')
 
@@ -67,7 +78,7 @@ function App() {
     }
 
     fetchTopStories()
-  }, [])
+  }, [debouncedQuery])
 
   const formatTime = (timestamp: number) => {
     const now = Date.now() / 1000
@@ -119,6 +130,15 @@ function App() {
           <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
             Top stories from the last three months
           </p>
+          <div className="mt-4">
+            <input
+              type="text"
+              placeholder="Search stories..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full max-w-md px-4 py-2 text-sm bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-200 focus:border-transparent placeholder-slate-400 transition-shadow"
+            />
+          </div>
         </header>
 
         <div className="space-y-6">
