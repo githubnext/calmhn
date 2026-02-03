@@ -128,7 +128,7 @@ function App() {
           </h1>
           <div className="flex items-center gap-2 mt-2">
             <span className="text-slate-500 text-[10px] uppercase tracking-wider">
-              Top stories from the last
+              Top stories in the last
             </span>
             <select
               value={duration}
