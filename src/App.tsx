@@ -143,7 +143,7 @@ function App() {
 
         <div className="space-y-6">
           {stories.length === 0 && !loading && (
-            <p className="text-slate-400 text-sm py-8 text-center">No stories found</p>
+            <p className="text-slate-500 text-lg py-12 text-center">No stories found</p>
           )}
           {stories.map((story, index) => (
             <article key={story.id} className="group -mx-3 px-3 py-3 rounded-lg hover:bg-slate-100 transition-colors duration-300 relative">
