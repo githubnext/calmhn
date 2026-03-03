@@ -21,10 +21,18 @@ interface HNStory {
   descendants?: number
 }
 
+const TIME_WINDOWS = [
+  { label: '2 weeks', days: 14 },
+  { label: '1 month', days: 30 },
+  { label: '3 months', days: 90 },
+  { label: '6 months', days: 180 },
+]
+
 function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [timeWindow, setTimeWindow] = useState(90)
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -32,21 +40,18 @@ function App() {
         setLoading(true)
         setError(null)
 
-        // Calculate timestamp for three months ago
-        const threeMonthsAgo = Math.floor(Date.now() / 1000) - (90 * 24 * 60 * 60)
+        const since = Math.floor(Date.now() / 1000) - (timeWindow * 24 * 60 * 60)
 
-        // Fetch top stories from last three months using Algolia
         const response = await fetch(
-          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${threeMonthsAgo}&hitsPerPage=30`
+          `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${since}&hitsPerPage=30`
         )
         if (!response.ok) throw new Error('Failed to fetch stories')
 
         const data = await response.json()
         const algoliaStories: AlgoliaStory[] = data.hits
 
-        // Convert Algolia format to our HNStory format
         const convertedStories: HNStory[] = algoliaStories
-          .filter(story => story.title && story.points) // Filter out stories without title or points
+          .filter(story => story.title && story.points)
           .map(story => ({
             id: parseInt(story.objectID),
             title: story.title,
@@ -56,7 +61,7 @@ function App() {
             time: story.created_at_i,
             descendants: story.num_comments
           }))
-          .sort((a, b) => b.score - a.score) // Sort by score descending
+          .sort((a, b) => b.score - a.score)
 
         setStories(convertedStories)
       } catch (err) {
@@ -67,7 +72,7 @@ function App() {
     }
 
     fetchTopStories()
-  }, [])
+  }, [timeWindow])
 
   const formatTime = (timestamp: number) => {
     const now = Date.now() / 1000
@@ -112,13 +117,24 @@ function App() {
     <div className="min-h-screen bg-neutral-50 relative">
       <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-200 to-transparent pointer-events-none"></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
-        <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-            Calm HN
-          </h1>
-          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
-            Top stories from the last three months
-          </p>
+        <header className="mb-8 flex items-end justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+              Calm HN
+            </h1>
+            <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
+              Top stories from the last {TIME_WINDOWS.find(w => w.days === timeWindow)?.label}
+            </p>
+          </div>
+          <select
+            value={timeWindow}
+            onChange={e => setTimeWindow(Number(e.target.value))}
+            className="text-xs text-slate-500 bg-white border border-slate-200 rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-orange-300 cursor-pointer"
+          >
+            {TIME_WINDOWS.map(w => (
+              <option key={w.days} value={w.days}>{w.label}</option>
+            ))}
+          </select>
         </header>
 
         <div className="space-y-6">
