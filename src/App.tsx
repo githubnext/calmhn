@@ -1,6 +1,17 @@
 import { useEffect, useState } from 'react'
 import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
 
+type ThemeColor = 'orange' | 'purple' | 'green' | 'blue'
+
+const themes: Record<ThemeColor, { gradient: string; badge: string; swatch: string }> = {
+  orange: { gradient: 'from-orange-200', badge: 'group-hover:bg-orange-200', swatch: 'bg-orange-400' },
+  purple: { gradient: 'from-purple-200', badge: 'group-hover:bg-purple-200', swatch: 'bg-purple-400' },
+  green:  { gradient: 'from-green-200',  badge: 'group-hover:bg-green-200',  swatch: 'bg-green-400' },
+  blue:   { gradient: 'from-blue-200',   badge: 'group-hover:bg-blue-200',   swatch: 'bg-blue-400' },
+}
+
+const themeColors: ThemeColor[] = ['orange', 'purple', 'green', 'blue']
+
 interface AlgoliaStory {
   objectID: string
   title: string
@@ -25,6 +36,15 @@ function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [theme, setTheme] = useState<ThemeColor>(() => {
+    const saved = localStorage.getItem('theme-color')
+    return themeColors.includes(saved as ThemeColor) ? (saved as ThemeColor) : 'orange'
+  })
+
+  const handleThemeChange = (color: ThemeColor) => {
+    setTheme(color)
+    localStorage.setItem('theme-color', color)
+  }
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -110,15 +130,27 @@ function App() {
 
   return (
     <div className="min-h-screen bg-neutral-50 relative">
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-200 to-transparent pointer-events-none"></div>
+      <div className={`absolute top-0 left-0 right-0 h-32 bg-gradient-to-b ${themes[theme].gradient} to-transparent pointer-events-none`}></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
-        <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-            Calm HN
-          </h1>
+        <header className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+              Calm HN
+            </h1>
           <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
             Top stories from the last three months
           </p>
+          </div>
+          <div className="flex items-center gap-1.5 mt-2">
+            {themeColors.map((color) => (
+              <button
+                key={color}
+                onClick={() => handleThemeChange(color)}
+                className={`w-5 h-5 rounded-full ${themes[color].swatch} transition-all duration-200 cursor-pointer ${theme === color ? 'ring-2 ring-offset-2 ring-slate-400 scale-110' : 'opacity-60 hover:opacity-100'}`}
+                aria-label={`${color} theme`}
+              />
+            ))}
+          </div>
         </header>
 
         <div className="space-y-6">
@@ -132,7 +164,7 @@ function App() {
                 aria-label={story.title}
               />
               <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 relative z-10 pointer-events-none">
-                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-orange-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
+                <span className={`bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px ${themes[theme].badge} group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300`}>
                   {index + 1}
                 </span>
                 <h2 className="text-slate-900 text-lg leading-relaxed">
