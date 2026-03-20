@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
 
-type Theme = 'orange' | 'purple' | 'green' | 'blue'
+type Theme = 'orange' | 'purple' | 'green' | 'blue' | 'teal'
 
 const themes: { id: Theme; swatch: string }[] = [
   { id: 'orange', swatch: 'bg-orange-300' },
   { id: 'purple', swatch: 'bg-purple-300' },
   { id: 'green',  swatch: 'bg-green-300' },
   { id: 'blue',   swatch: 'bg-blue-300' },
+  { id: 'teal',   swatch: 'bg-teal-300' },
 ]
 
 interface AlgoliaStory {

@@ -20,3 +20,4 @@ body {
 [data-theme="purple"] { --accent: var(--color-purple-200); }
 [data-theme="green"]  { --accent: var(--color-green-200); }
 [data-theme="blue"]   { --accent: var(--color-blue-200); }
+[data-theme="teal"]   { --accent: var(--color-teal-200); }
