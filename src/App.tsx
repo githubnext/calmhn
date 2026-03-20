@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react'
 import { ArrowSquareOut, ChatCircle, ArrowUp, Clock } from '@phosphor-icons/react'
 
+type Theme = 'orange' | 'purple' | 'green' | 'blue'
+
+const themes: { id: Theme; swatch: string }[] = [
+  { id: 'orange', swatch: 'bg-orange-300' },
+  { id: 'purple', swatch: 'bg-purple-300' },
+  { id: 'green',  swatch: 'bg-green-300' },
+  { id: 'blue',   swatch: 'bg-blue-300' },
+]
+
 interface AlgoliaStory {
   objectID: string
   title: string
@@ -25,6 +34,14 @@ function App() {
   const [stories, setStories] = useState<HNStory[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [theme, setTheme] = useState<Theme>(
+    () => (localStorage.getItem('hn-theme') as Theme) || 'orange'
+  )
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('hn-theme', theme)
+  }, [theme])
 
   useEffect(() => {
     const fetchTopStories = async () => {
@@ -110,15 +127,29 @@ function App() {
 
   return (
     <div className="min-h-screen bg-neutral-50 relative">
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-orange-200 to-transparent pointer-events-none"></div>
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[var(--accent)] to-transparent pointer-events-none"></div>
       <div className="max-w-3xl mx-auto px-6 py-12 relative">
-        <header className="mb-8">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
-            Calm HN
-          </h1>
-          <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
-            Top stories from the last three months
-          </p>
+        <header className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+              Calm HN
+            </h1>
+            <p className="text-slate-500 text-[10px] mt-2 uppercase tracking-wider">
+              Top stories from the last three months
+            </p>
+          </div>
+          <div className="flex items-center gap-1.5 mt-1.5">
+            {themes.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setTheme(t.id)}
+                title={t.id.charAt(0).toUpperCase() + t.id.slice(1)}
+                className={`w-4 h-4 rounded-full ${t.swatch} transition-all duration-200 ${
+                  theme === t.id ? 'ring-2 ring-offset-2 ring-slate-400 scale-110' : 'opacity-50 hover:opacity-80'
+                }`}
+              />
+            ))}
+          </div>
         </header>
 
         <div className="space-y-6">
@@ -132,7 +163,7 @@ function App() {
                 aria-label={story.title}
               />
               <div className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 relative z-10 pointer-events-none">
-                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-orange-200 group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
+                <span className="bg-slate-200 text-slate-500 text-[10px] leading-none font-medium px-2 py-0.5 rounded-full flex-shrink-0 self-center mt-px group-hover:bg-[var(--accent)] group-hover:text-slate-600 transition-colors group-hover:duration-[750ms] duration-300">
                   {index + 1}
                 </span>
                 <h2 className="text-slate-900 text-lg leading-relaxed">
