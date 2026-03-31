@@ -11,3 +11,100 @@
 body {
 	font-family: "InterVariable", sans-serif;
 }
+
+/* Theme variables */
+:root,
+[data-theme="default"] {
+	--color-page-bg: oklch(0.985 0.002 75);
+	--color-page-gradient: oklch(0.899 0.061 71.3);
+	--color-heading: oklch(0.208 0.042 265.8);
+	--color-subheading: oklch(0.554 0.022 257.4);
+	--color-title: oklch(0.208 0.042 265.8);
+	--color-meta: oklch(0.704 0.022 261.1);
+	--color-meta-hover: oklch(0.554 0.022 257.4);
+	--color-badge-bg: oklch(0.899 0.013 261.1);
+	--color-badge-text: oklch(0.554 0.022 257.4);
+	--color-badge-hover-bg: oklch(0.899 0.061 71.3);
+	--color-badge-hover-text: oklch(0.446 0.03 256.8);
+	--color-card-hover: oklch(0.928 0.006 264.5);
+	--color-picker-bg: white;
+	--color-picker-border: oklch(0.899 0.013 261.1);
+	--color-picker-hover: oklch(0.964 0.007 264.5);
+	--color-picker-check: oklch(0.208 0.042 265.8);
+}
+
+[data-theme="dark"] {
+	--color-page-bg: oklch(0.178 0.014 265.8);
+	--color-page-gradient: oklch(0.305 0.058 41);
+	--color-heading: oklch(0.964 0.007 264.5);
+	--color-subheading: oklch(0.556 0.022 257.4);
+	--color-title: oklch(0.928 0.006 264.5);
+	--color-meta: oklch(0.5 0.02 261.1);
+	--color-meta-hover: oklch(0.65 0.02 257.4);
+	--color-badge-bg: oklch(0.27 0.02 261.1);
+	--color-badge-text: oklch(0.65 0.02 257.4);
+	--color-badge-hover-bg: oklch(0.38 0.06 50);
+	--color-badge-hover-text: oklch(0.899 0.061 71.3);
+	--color-card-hover: oklch(0.23 0.015 264.5);
+	--color-picker-bg: oklch(0.23 0.015 264.5);
+	--color-picker-border: oklch(0.32 0.02 261.1);
+	--color-picker-hover: oklch(0.28 0.018 264.5);
+	--color-picker-check: oklch(0.928 0.006 264.5);
+}
+
+[data-theme="forest"] {
+	--color-page-bg: oklch(0.97 0.01 145);
+	--color-page-gradient: oklch(0.85 0.08 148);
+	--color-heading: oklch(0.22 0.04 150);
+	--color-subheading: oklch(0.5 0.04 150);
+	--color-title: oklch(0.22 0.04 150);
+	--color-meta: oklch(0.58 0.04 150);
+	--color-meta-hover: oklch(0.42 0.04 150);
+	--color-badge-bg: oklch(0.88 0.04 148);
+	--color-badge-text: oklch(0.42 0.04 150);
+	--color-badge-hover-bg: oklch(0.82 0.09 148);
+	--color-badge-hover-text: oklch(0.22 0.04 150);
+	--color-card-hover: oklch(0.93 0.02 148);
+	--color-picker-bg: white;
+	--color-picker-border: oklch(0.88 0.04 148);
+	--color-picker-hover: oklch(0.94 0.02 148);
+	--color-picker-check: oklch(0.22 0.04 150);
+}
+
+[data-theme="ocean"] {
+	--color-page-bg: oklch(0.97 0.01 230);
+	--color-page-gradient: oklch(0.82 0.08 235);
+	--color-heading: oklch(0.22 0.04 240);
+	--color-subheading: oklch(0.5 0.04 240);
+	--color-title: oklch(0.22 0.04 240);
+	--color-meta: oklch(0.58 0.04 235);
+	--color-meta-hover: oklch(0.42 0.04 240);
+	--color-badge-bg: oklch(0.88 0.04 230);
+	--color-badge-text: oklch(0.42 0.04 240);
+	--color-badge-hover-bg: oklch(0.78 0.09 235);
+	--color-badge-hover-text: oklch(0.22 0.04 240);
+	--color-card-hover: oklch(0.93 0.02 230);
+	--color-picker-bg: white;
+	--color-picker-border: oklch(0.88 0.04 230);
+	--color-picker-hover: oklch(0.94 0.02 230);
+	--color-picker-check: oklch(0.22 0.04 240);
+}
+
+@theme inline {
+	--color-theme-page-bg: var(--color-page-bg);
+	--color-theme-page-gradient: var(--color-page-gradient);
+	--color-theme-heading: var(--color-heading);
+	--color-theme-subheading: var(--color-subheading);
+	--color-theme-title: var(--color-title);
+	--color-theme-meta: var(--color-meta);
+	--color-theme-meta-hover: var(--color-meta-hover);
+	--color-theme-badge-bg: var(--color-badge-bg);
+	--color-theme-badge-text: var(--color-badge-text);
+	--color-theme-badge-hover-bg: var(--color-badge-hover-bg);
+	--color-theme-badge-hover-text: var(--color-badge-hover-text);
+	--color-theme-card-hover: var(--color-card-hover);
+	--color-theme-picker-bg: var(--color-picker-bg);
+	--color-theme-picker-border: var(--color-picker-border);
+	--color-theme-picker-hover: var(--color-picker-hover);
+	--color-theme-picker-check: var(--color-picker-check);
+}
