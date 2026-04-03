@@ -1,5 +1,25 @@
 @import "tailwindcss";
 
+@theme {
+	--color-accent-200: #e9d5ff;
+}
+
+[data-theme="purple"] {
+	--color-accent-200: #e9d5ff;
+}
+
+[data-theme="red"] {
+	--color-accent-200: #fecaca;
+}
+
+[data-theme="blue"] {
+	--color-accent-200: #bfdbfe;
+}
+
+[data-theme="green"] {
+	--color-accent-200: #bbf7d0;
+}
+
 @font-face {
 	font-family: InterVariable;
 	font-style: normal;
