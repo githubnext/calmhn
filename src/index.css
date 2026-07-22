@@ -8,6 +8,13 @@
 	src: url("./InterVariable.woff2") format("woff2");
 }
 
+:root {
+	--season-gradient: rgb(254 215 170);
+	--season-accent-bg: rgb(254 215 170);
+	--season-accent-bg-hover: rgb(254 215 170);
+	--season-accent-text: rgb(71 85 105);
+}
+
 body {
 	font-family: "InterVariable", sans-serif;
 }
